@@ -18,7 +18,7 @@
 // 			State Object
 
 const appState = {
-	nutrition: [],
+	nutrition: {},
 	recipes: []
 }
 
@@ -28,8 +28,10 @@ const NUTRITION_URL = 'https://api.edamam.com/api/nutrition-data';
 
 //Retrieve api data
 //add data to state object
-function addNutritionApiData() {
-
+function addNutritionApiData(data) {
+	state.nutrition = data.totalNutrients;
+		displayNutritionData(state)
+		console.log(data);
 }
 
 //function addRecipeApiData(){}
@@ -48,8 +50,11 @@ function renderNutritionSearchData(result) {
 
 
 function displayNutritionData(state)/* find data from state*/ {
-  var results = state.nutrition.map(function(item, index) {
-    return renderNutritionSearchData(item);
+	console.log(state)
+	const nutrientKeys = Object.keys(state.nutrition) // array of keys
+  var results = nutrientKeys.map(function(fact, index) {
+  	console.log(state.nutrition.totalNutrients[fact])
+    return renderNutritionSearchData();
   });
   $('.nutritional-data').html(results);
 }
@@ -75,7 +80,7 @@ function getNutritionDataFromApi(searchTerm, callback, endpointUrl) {
 		app_key: '0496691f788a39d097dfd6fb0af61f0f',
 		ingr: searchTerm,
   }
-  $.getJSON(endpointUrl, query, callback);
+  $.getJSON(query, callback, endpointUrl);
 }
 
 
@@ -88,8 +93,7 @@ function watchSubmit() {
     var query = queryTarget.val();
     // clear out the input
     queryTarget.val("");
-    console.log(query);
-    getNutritionDataFromApi(query, displayNutritionData, NUTRITION_URL);
+    getNutritionDataFromApi(query, addNutritionApiData, NUTRITION_URL);
   });
 }
 
