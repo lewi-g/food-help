@@ -36,12 +36,14 @@ const appState = {
 //Select data we'll use in the html
 //Insert Data into Html 
 function renderNutritionSearchData(result) {
-	console.log('result');
+	console.log(result);
+	let 
+	return `<div></div>`
 }
 //function displayRecipeSearchData() {}
 
 
-function displayYouTubeData(state)/* find data from state*/ {
+function displayNutritionData(state)/* find data from state*/ {
   var results = state.items.map(function(item, index) {
     return renderResult(item);
   });
@@ -53,14 +55,14 @@ function displayYouTubeData(state)/* find data from state*/ {
 //Get recipe data from API  
 
 
-//function getRecipeDataFromApi(searchTerm, callback, endpointUrl) {
-  var query = {
-		app_id: '5e5c7eae',
-		app_key: 'e796fa8651cb2d2180a5089c5bde56e6',
-		ingr: searchTerm
-  }
-  $.getJSON(endpointUrl, query, callback);
-}
+// function getRecipeDataFromApi(searchTerm, callback, endpointUrl) {
+//   var query = {
+// 		app_id: '5e5c7eae',
+// 		app_key: 'e796fa8651cb2d2180a5089c5bde56e6',
+// 		ingr: searchTerm
+//   }
+//   $.getJSON(endpointUrl, query, callback);
+// }
 
 // Get API nutrition data
 function getNutritionDataFromApi(searchTerm, callback, endpointUrl) {
