@@ -34,6 +34,10 @@ function addNutritionApiData(data) {
 	console.log(appState.nutrition);
 }
 
+function deleteNutritionApiData(state) {
+	 appState.nutrition = {};
+}  
+
 //function addRecipeApiData(){}
 
 
@@ -146,16 +150,22 @@ function watchSubmit() {
     // clear out the input
     queryTarget.val("");
     getNutritionDataFromApi(query, addNutritionApiData, NUTRITION_URL);
+    watchChoiceButton();
   });
-	watchChoiceButton();
+
 }
 
 function watchChoiceButton() {
-	console.log("watch Button is on");
-	$('.yes').click(function(event) {
-		console.log("Yes was clicked");
-		$(".hidden").removeClass('hidden');
-	})
+	$('.nutritional-data').on ('click', 'button', function(event) {
+		if ($(event.target).hasClass('yes')) {
+			$(".hidden").removeClass("hidden");
+		
+		} else 	if ($(event.target).hasClass('no')) {
+			console.log("hello");
+			deleteNutritionApiData(appState);
+			$(".nutritional-data").empty();
+		};
+
 }
 
 //Listen for user clicking recipe link
