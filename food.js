@@ -50,7 +50,9 @@ function renderNutritionSearchData(result) {
 	let foodName = appState.nutrition.parsed[0].food;
 	let nutritionArr = appState.nutrition.parsed[0].nutrients;
 	let html = `<div class="nutrition-table">
-				<h3 class="food-name"> ${foodName} </h3>`;
+				<h3 class="food-name"> Is ${foodName} what you're looking for?</h3>
+				<button type="button" class="yes">Yes!</button>
+				<button type="button" class="no">No</button>`;
 
 	const props = {
 		ENERC_KCAL: {
@@ -77,9 +79,9 @@ function renderNutritionSearchData(result) {
 		if (nutritionArr[prop]) {
 			const nutrient = nutritionArr[prop];
 
-			html += `<div class="${label.toLowerCase()}">${label} ${nutrient.quantity.toFixed(2)}${unit}</div>`;
+			html += `<div class="${label.toLowerCase()} hidden">${label} ${nutrient.quantity.toFixed(2)}${unit}</div>`;
 		} else {
-			html += `<div class="${label.toLowerCase()}">${label} 0${unit}</div>`;
+			html += `<div class="${label.toLowerCase()}" hidden>${label} 0${unit}</div>`;
 		}
 	});
 
@@ -87,7 +89,7 @@ function renderNutritionSearchData(result) {
 
 	html += '</div>';
 
-	console.log(html);
+	//console.log(html);
 	return html;
 }
 //function displayRecipeSearchData() {}
@@ -145,6 +147,15 @@ function watchSubmit() {
     queryTarget.val("");
     getNutritionDataFromApi(query, addNutritionApiData, NUTRITION_URL);
   });
+	watchChoiceButton();
+}
+
+function watchChoiceButton() {
+	console.log("watch Button is on");
+	$('.yes').click(function(event) {
+		console.log("Yes was clicked");
+		$(".hidden").removeClass('hidden');
+	})
 }
 
 //Listen for user clicking recipe link
@@ -156,8 +167,11 @@ function watchSubmit() {
 
 
 // 			Doc.Ready
+$(document).ready(function(){
+	watchSubmit();
 
-$(watchSubmit());
+})
+
 
 
 
