@@ -2,8 +2,7 @@
 // 			State Object
 
 const appState = {
-	nutrition: {},
-	recipes: []
+	nutrition: {}
 }
 
 const NUTRITION_URL = 'https://api.edamam.com/api/nutrition-data';
@@ -15,7 +14,6 @@ const NUTRITION_URL = 'https://api.edamam.com/api/nutrition-data';
 function addNutritionApiData(data) {
 	appState.nutrition = data.ingredients[0];
 	findNutritionData(appState);
-	console.log(appState.nutrition);
 }
 
 function deleteNutritionApiData(state) {
@@ -42,8 +40,8 @@ function renderNutritionSearchData(result) {
 	let nutritionArr = appState.nutrition.parsed[0].nutrients;
 	let html = `<div class="nutrition-table">
 				<h3 class="food-name">${foodResult}</h3>
-				<button type="button" class="yes">Yes!</button>
-				<button type="button" class="no">No</button>`;
+				<button type="button" class="yes submit-button">Yes!</button>
+				<button type="button" class="no submit-button">No</button>`;
 
 	const props = {
 		ENERC_KCAL: {
@@ -84,14 +82,11 @@ function renderNutritionSearchData(result) {
 
 
 function findNutritionData(state)/* find data from state*/ {
-	const nutrientKeys = Object.keys(state.nutrition);// array of keys
  	$('.nutritional-data').html(renderNutritionSearchData);
 }
 
 
 //			Event Listener
-
-
 
 // Get API nutrition data
 function getNutritionDataFromApi(searchTerm, callback, endpointUrl) {
@@ -122,6 +117,8 @@ function watchChoiceButton() {
 	$('.nutritional-data').on ('click', 'button', function(event) {
 		if ($(event.target).hasClass('yes')) {
 			$(".hidden").removeClass("hidden");
+			$(".yes").addClass("hidden");
+			$('.no').addClass("hidden");
 		} else if ($(event.target).hasClass('no')) {
 			deleteNutritionApiData(appState);
 			$(".nutritional-data").empty();

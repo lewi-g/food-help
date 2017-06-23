@@ -8,14 +8,17 @@
 	text-align: center;
 }
 
-.js-query, .js-number-input {
+.js-query, .js-number-input, .submit-button {
 
  border: 2px solid lightgrey;
+ font-size: 20px;
 }
 
 body {
+	font-size: 120%;
 	border: 3px solid black;
 	padding-bottom: 20px;
+	font-family: 'Spectral', serif;
 }
 
 
@@ -29,8 +32,10 @@ label {
 
 .js-number-input {
 	width: 40px;
+
 }
 
 .yes, .no {
 	margin-bottom: 20px;
 }
+
