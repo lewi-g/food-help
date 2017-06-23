@@ -1,19 +1,3 @@
-// Food Database requests
-//searching only within food database (not recipe analysis)
-
-// Nutrition-data-api
-// app_id = e6475bcd
-// app_key = 0496691f788a39d097dfd6fb0af61f0f
-// ingr =
-// example of request "https://api.edamam.com/api/nutrition-data?app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&ingr=1%20large%20apple"
-
-// https://api.edamam.com/api/nutrition-data?app_id=e6475bcd&app_key=0496691f788a39d097dfd6fb0af61f0f&ingr=1%20large%20apple
-
-// Recipe-data-api
-// app_id = 5e5c7eae
-// app_key = e796fa8651cb2d2180a5089c5bde56e6
-// ingr =
-// example of request "https://api.edamam.com/api/nutrition-data?app_id=${YOUR_APP_ID}&app_key=${YOUR_APP_KEY}&ingr=1%20large%20apple"
 
 // 			State Object
 
@@ -37,9 +21,6 @@ function addNutritionApiData(data) {
 function deleteNutritionApiData(state) {
 	 appState.nutrition = {};
 }  
-
-//function addRecipeApiData(){}
-
 
 //			Render
 
@@ -100,15 +81,8 @@ function renderNutritionSearchData(result) {
 
 
 function findNutritionData(state)/* find data from state*/ {
-	//console.log(state)
 	const nutrientKeys = Object.keys(state.nutrition);// array of keys
-	//console.log(nutrientKeys);
-  // var results = nutrientKeys.map(function(fact, index) {
-  // 	//console.log(state.nutrition.totalNutrients[fact])
-  //   return renderNutritionSearchData();
-  // });
-  
- $('.nutritional-data').html(renderNutritionSearchData);
+ 	$('.nutritional-data').html(renderNutritionSearchData);
 }
 //			Event Listener
 
@@ -143,13 +117,12 @@ function getNutritionDataFromApi(searchTerm, callback, endpointUrl) {
 function watchSubmit() {
 	$('.js-search-form').submit(function(event) {
     event.preventDefault();
-    //console.log("prevent default happened");
-    //const nutritionDataUrl = $(event.currentTarget).attr('action')
-    var queryTarget = $(event.currentTarget).find('.js-query');
-    var query = queryTarget.val();
-    // clear out the input
-    queryTarget.val("");
-    getNutritionDataFromApi(query, addNutritionApiData, NUTRITION_URL);
+    let fullQuery = $('input').map(function(){
+    	return this.value;
+    }).get().join('');
+   // console.log(fullQuery);
+
+    getNutritionDataFromApi(fullQuery, addNutritionApiData, NUTRITION_URL);
     watchChoiceButton();
   });
 
@@ -157,17 +130,17 @@ function watchSubmit() {
 
 function watchChoiceButton() {
 	$('.nutritional-data').on ('click', 'button', function(event) {
+		console.log("hi you clicked me");
 		if ($(event.target).hasClass('yes')) {
 			$(".hidden").removeClass("hidden");
-		
-		} else 	if ($(event.target).hasClass('no')) {
-			console.log("hello");
+			console.log("I'm supposed to show you things")
+		} else if ($(event.target).hasClass('no')) {
 			deleteNutritionApiData(appState);
 			$(".nutritional-data").empty();
+			console.log("I'm supposed to reset everything!");
 		};
-
+	});
 }
-
 //Listen for user clicking recipe link
 //display recipe view
 //function goToRecipe() {}
@@ -177,10 +150,7 @@ function watchChoiceButton() {
 
 
 // 			Doc.Ready
-$(document).ready(function(){
-	watchSubmit();
-
-})
+$(watchSubmit());
 
 
 
