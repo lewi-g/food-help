@@ -35,7 +35,7 @@ function renderNutritionSearchData(result) {
 	let foodName = appState.nutrition.parsed[0].food;
 	let nutritionArr = appState.nutrition.parsed[0].nutrients;
 	let html = `<div class="nutrition-table">
-				<h3 class="food-name"> Is ${foodName} what you're looking for?</h3>
+				<h3 class="food-name"> Is <span class ="result">${foodName} </span>what you're looking for?</h3>
 				<button type="button" class="yes">Yes!</button>
 				<button type="button" class="no">No</button>`;
 
@@ -66,15 +66,12 @@ function renderNutritionSearchData(result) {
 
 			html += `<div class="${label.toLowerCase()} hidden">${label} ${nutrient.quantity.toFixed(2)}${unit}</div>`;
 		} else {
-			html += `<div class="${label.toLowerCase()}" hidden>${label} 0${unit}</div>`;
+			html += `<div class="${label.toLowerCase()} hidden">${label} 0${unit}</div>`;
 		}
 	});
 
-
-
 	html += '</div>';
 
-	//console.log(html);
 	return html;
 }
 //function displayRecipeSearchData() {}
@@ -90,14 +87,7 @@ function findNutritionData(state)/* find data from state*/ {
 //Get recipe data from API  
 
 
-// // function getRecipeDataFromApi(searchTerm, callback, endpointUrl) {
-//   var query = {
-// 		app_id: '5e5c7eae',
-// 		app_key: 'e796fa8651cb2d2180a5089c5bde56e6',
-// 		ingr: searchTerm
-//   }
-//   $.getJSON(endpointUrl, query, callback);
-// // }
+
 
 // Get API nutrition data
 function getNutritionDataFromApi(searchTerm, callback, endpointUrl) {
@@ -109,10 +99,6 @@ function getNutritionDataFromApi(searchTerm, callback, endpointUrl) {
   $.getJSON(endpointUrl, query, callback);
 }
 
-// might not return food because requires 
-//Always include quantity and measure in the reques. 
-//Submitting ‘1 large apple’ vs. submitting just ‘apple’
-
 // Display a message to the user when enters bad request
 function watchSubmit() {
 	$('.js-search-form').submit(function(event) {
@@ -121,7 +107,7 @@ function watchSubmit() {
     	return this.value;
     }).get().join('');
    // console.log(fullQuery);
-
+   	$(event.currentTarget).find('.js-query').val('');
     getNutritionDataFromApi(fullQuery, addNutritionApiData, NUTRITION_URL);
     watchChoiceButton();
   });
@@ -130,14 +116,11 @@ function watchSubmit() {
 
 function watchChoiceButton() {
 	$('.nutritional-data').on ('click', 'button', function(event) {
-		console.log("hi you clicked me");
 		if ($(event.target).hasClass('yes')) {
 			$(".hidden").removeClass("hidden");
-			console.log("I'm supposed to show you things")
 		} else if ($(event.target).hasClass('no')) {
 			deleteNutritionApiData(appState);
 			$(".nutritional-data").empty();
-			console.log("I'm supposed to reset everything!");
 		};
 	});
 }

@@ -1,3 +1,36 @@
 .hidden {
 	display: none;
 }
+
+* {
+
+	background-color: #cfe3ca;
+	text-align: center;
+}
+
+.js-query, .js-number-input {
+
+ border: 2px solid lightgrey;
+}
+
+body {
+	border: 3px solid black;
+	padding-bottom: 20px;
+}
+
+
+.result {
+	color: maroon;
+}
+
+label {
+	display: block;
+}
+
+.js-number-input {
+	width: 40px;
+}
+
+.yes, .no {
+	margin-bottom: 20px;
+}
