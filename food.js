@@ -29,8 +29,8 @@ const NUTRITION_URL = 'https://api.edamam.com/api/nutrition-data';
 //Retrieve api data
 //add data to state object
 function addNutritionApiData(data) {
-	appState.nutrition = data.totalNutrients;
-	displayNutritionData(appState);
+	appState.nutrition = data.ingredients;
+	findNutritionData(appState);
 	console.log(appState.nutrition);
 }
 
@@ -42,22 +42,54 @@ function addNutritionApiData(data) {
 //Select data we'll use in the html
 //Insert Data into Html 
 function renderNutritionSearchData(result) {
-	console.log(result);
-	let 
-	return `<div></div>`
+	//console.log(result);
+	let nutritionArr = appState.nutrition.parsed.nutrients;
+	let calorie = nutritionArr.ENERC_KCAL;
+	let calorieValName = calorie.label;
+	let calorieVal = calorie.quantity;
+	let calorieValUnit = calorie.unit;
+	
+	let carb = nutritionArr.CHOCDF;
+	let carbValName = carb.label;
+	let carbVal = carb.quantity;
+	let carbValUnit = carb.unit;
+	console.log(carbValName);
+	console.log(carbVal);
+	
+	let protein = nutritionArr.PROCNT;
+	let proteinValName = protein.label;
+	let proteinVal = protein.quantity;
+	let proteinValUnit = protein.unit;
+	
+	let fat = nutritionArr.FAT;
+	let fatValName = fat.label;
+	let fatVal = fat.quantity;
+	let fatValUnit = fat.unit;
+	console.log(carbVal);
+
+	let foodName = ingredients.parsed.food;
+	console.log(foodName);
+
+	return `<div class="nutrition-table">
+				<div class="calories">${calorieValName} ${calorieVal}${calorieValUnit}</div>
+				<div class="carbs">${carbValName} ${carbVal}${carbValUnit}</div>
+				<div class="protein">${proteinValName} ${proteinVal}${proteinValUnit}</div>
+				<div class="fat">${fatValName} ${fatVal}${fatValUnit}</div>
+			</div>`
 }
 //function displayRecipeSearchData() {}
 
 
-function displayNutritionData(state)/* find data from state*/ {
+function findNutritionData(state)/* find data from state*/ {
 	//console.log(state)
 	const nutrientKeys = Object.keys(state.nutrition);// array of keys
-	console.log(nutrientKeys);
-  var results = nutrientKeys.map(function(fact, index) {
-  	//console.log(state.nutrition.totalNutrients[fact])
-    //return renderNutritionSearchData();
-  });
- // $('.nutritional-data').html(results);
+	//console.log(nutrientKeys);
+  // var results = nutrientKeys.map(function(fact, index) {
+  // 	//console.log(state.nutrition.totalNutrients[fact])
+  //   return renderNutritionSearchData();
+  // });
+  
+ $('.nutritional-data').html(renderNutritionSearchData);
 }
 //			Event Listener
 
