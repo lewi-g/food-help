@@ -29,7 +29,7 @@ const NUTRITION_URL = 'https://api.edamam.com/api/nutrition-data';
 //Retrieve api data
 //add data to state object
 function addNutritionApiData(data) {
-	appState.nutrition = data.ingredients;
+	appState.nutrition = data.ingredients[0];
 	findNutritionData(appState);
 	console.log(appState.nutrition);
 }
@@ -43,39 +43,52 @@ function addNutritionApiData(data) {
 //Insert Data into Html 
 function renderNutritionSearchData(result) {
 	//console.log(result);
-	let nutritionArr = appState.nutrition.parsed.nutrients;
-	let calorie = nutritionArr.ENERC_KCAL;
-	let calorieValName = calorie.label;
-	let calorieVal = calorie.quantity;
-	let calorieValUnit = calorie.unit;
-	
-	let carb = nutritionArr.CHOCDF;
-	let carbValName = carb.label;
-	let carbVal = carb.quantity;
-	let carbValUnit = carb.unit;
-	console.log(carbValName);
-	console.log(carbVal);
-	
-	let protein = nutritionArr.PROCNT;
-	let proteinValName = protein.label;
-	let proteinVal = protein.quantity;
-	let proteinValUnit = protein.unit;
-	
-	let fat = nutritionArr.FAT;
-	let fatValName = fat.label;
-	let fatVal = fat.quantity;
-	let fatValUnit = fat.unit;
-	console.log(carbVal);
+	if (!appState.nutrition.parsed) {
+		return `<div> This ingredient wasn't found</div>`;
+	}
 
-	let foodName = ingredients.parsed.food;
-	console.log(foodName);
+	let foodName = appState.nutrition.parsed[0].food;
+	let nutritionArr = appState.nutrition.parsed[0].nutrients;
+	let html = `<div class="nutrition-table">
+				<h3 class="food-name"> ${foodName} </h3>`;
 
-	return `<div class="nutrition-table">
-				<div class="calories">${calorieValName} ${calorieVal}${calorieValUnit}</div>
-				<div class="carbs">${carbValName} ${carbVal}${carbValUnit}</div>
-				<div class="protein">${proteinValName} ${proteinVal}${proteinValUnit}</div>
-				<div class="fat">${fatValName} ${fatVal}${fatValUnit}</div>
-			</div>`
+	const props = {
+		ENERC_KCAL: {
+			label: 'Energy',
+			unit: 'kcal'
+		},
+		CHOCDF: {
+			label: 'Carbs',
+			unit: 'g'
+		},
+		PROCNT: {
+			label: 'Protein',
+			unit: 'g'
+		},
+		FAT: {
+			label: 'Fat',
+			unit: 'g'
+		}
+	};
+
+	Object.keys(props).forEach(prop => {
+		const { label, unit } = props[prop];
+
+		if (nutritionArr[prop]) {
+			const nutrient = nutritionArr[prop];
+
+			html += `<div class="${label.toLowerCase()}">${label} ${nutrient.quantity.toFixed(2)}${unit}</div>`;
+		} else {
+			html += `<div class="${label.toLowerCase()}">${label} 0${unit}</div>`;
+		}
+	});
+
+
+
+	html += '</div>';
+
+	console.log(html);
+	return html;
 }
 //function displayRecipeSearchData() {}
 
