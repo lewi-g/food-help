@@ -32,10 +32,16 @@ function renderNutritionSearchData(result) {
 		return `<div> This ingredient wasn't found</div>`;
 	}
 
-	let foodName = appState.nutrition.parsed[0].food;
+	let foodMatch = appState.nutrition.parsed[0].foodMatch;
+	let foodQuantity = appState.nutrition.parsed[0].quantity
+	let foodMeasure = appState.nutrition.parsed[0].measure
+	// if measure = whole do not show measure - future goal
+
+	let foodResult = `Are you looking for <span class="result">${foodQuantity} ${foodMeasure} of ${foodMatch}</span>?`
+
 	let nutritionArr = appState.nutrition.parsed[0].nutrients;
 	let html = `<div class="nutrition-table">
-				<h3 class="food-name"> Is <span class ="result">${foodName} </span>what you're looking for?</h3>
+				<h3 class="food-name">${foodResult}</h3>
 				<button type="button" class="yes">Yes!</button>
 				<button type="button" class="no">No</button>`;
 
@@ -81,11 +87,9 @@ function findNutritionData(state)/* find data from state*/ {
 	const nutrientKeys = Object.keys(state.nutrition);// array of keys
  	$('.nutritional-data').html(renderNutritionSearchData);
 }
+
+
 //			Event Listener
-
-//Listen for user clicking submit button
-//Get recipe data from API  
-
 
 
 
@@ -106,7 +110,7 @@ function watchSubmit() {
     let fullQuery = $('input').map(function(){
     	return this.value;
     }).get().join('');
-   // console.log(fullQuery);
+   
    	$(event.currentTarget).find('.js-query').val('');
     getNutritionDataFromApi(fullQuery, addNutritionApiData, NUTRITION_URL);
     watchChoiceButton();
