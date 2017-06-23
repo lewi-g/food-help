@@ -29,9 +29,9 @@ const NUTRITION_URL = 'https://api.edamam.com/api/nutrition-data';
 //Retrieve api data
 //add data to state object
 function addNutritionApiData(data) {
-	state.nutrition = data.totalNutrients;
-		displayNutritionData(state)
-		console.log(data);
+	appState.nutrition = data.totalNutrients;
+	displayNutritionData(appState);
+	console.log(appState.nutrition);
 }
 
 //function addRecipeApiData(){}
@@ -50,13 +50,14 @@ function renderNutritionSearchData(result) {
 
 
 function displayNutritionData(state)/* find data from state*/ {
-	console.log(state)
-	const nutrientKeys = Object.keys(state.nutrition) // array of keys
+	//console.log(state)
+	const nutrientKeys = Object.keys(state.nutrition);// array of keys
+	console.log(nutrientKeys);
   var results = nutrientKeys.map(function(fact, index) {
-  	console.log(state.nutrition.totalNutrients[fact])
-    return renderNutritionSearchData();
+  	//console.log(state.nutrition.totalNutrients[fact])
+    //return renderNutritionSearchData();
   });
-  $('.nutritional-data').html(results);
+ // $('.nutritional-data').html(results);
 }
 //			Event Listener
 
@@ -64,14 +65,14 @@ function displayNutritionData(state)/* find data from state*/ {
 //Get recipe data from API  
 
 
-// function getRecipeDataFromApi(searchTerm, callback, endpointUrl) {
+// // function getRecipeDataFromApi(searchTerm, callback, endpointUrl) {
 //   var query = {
 // 		app_id: '5e5c7eae',
 // 		app_key: 'e796fa8651cb2d2180a5089c5bde56e6',
 // 		ingr: searchTerm
 //   }
 //   $.getJSON(endpointUrl, query, callback);
-// }
+// // }
 
 // Get API nutrition data
 function getNutritionDataFromApi(searchTerm, callback, endpointUrl) {
@@ -80,14 +81,18 @@ function getNutritionDataFromApi(searchTerm, callback, endpointUrl) {
 		app_key: '0496691f788a39d097dfd6fb0af61f0f',
 		ingr: searchTerm,
   }
-  $.getJSON(query, callback, endpointUrl);
+  $.getJSON(endpointUrl, query, callback);
 }
 
+// might not return food because requires 
+//Always include quantity and measure in the reques. 
+//Submitting ‘1 large apple’ vs. submitting just ‘apple’
 
+// Display a message to the user when enters bad request
 function watchSubmit() {
 	$('.js-search-form').submit(function(event) {
     event.preventDefault();
-    console.log("prevent default happened");
+    //console.log("prevent default happened");
     //const nutritionDataUrl = $(event.currentTarget).attr('action')
     var queryTarget = $(event.currentTarget).find('.js-query');
     var query = queryTarget.val();
